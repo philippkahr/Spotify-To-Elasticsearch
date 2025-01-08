@@ -3,6 +3,8 @@
 .vscode
 ### Linux ###
 *~
+processed/*.json
+to_read/*.json
 
 metadata_cache.json
 
