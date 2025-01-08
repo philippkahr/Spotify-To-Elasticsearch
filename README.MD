@@ -8,7 +8,7 @@ What does it do?
 
 ## Requirements
 
-It uses the [Spotify](https://spotipy.readthedocs.io/en/2.25.0/) library to connect and interact with Spotify API. Therefore you need to create your own Spotify Developer Account.
+It uses the [Spotipy](https://spotipy.readthedocs.io/en/2.25.0/) library to connect and interact with Spotify API. Therefore you need to create your own Spotify Developer Account.
 
 To minimize the strain on the Spotify API, we are creating a local `metadata_cache.json` file that stores all the unique songs ID + metadata retrieved. If you listen to a song twice, we will only ask the Spotify API once for the metadata.
 
