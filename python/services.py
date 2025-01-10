@@ -60,7 +60,7 @@ class SpotifyService:
 
 class ElasticsearchService:
     def __init__(self, es_url: str, api_key: str, index: str = "spotify-history"):
-        self.client = Elasticsearch(hosts=es_url, api_key=api_key)
+        self.client = Elasticsearch(hosts=es_url, api_key=api_key, request_timeout=30)
         self.index = index
 
     def check_pipeline(self):
