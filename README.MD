@@ -134,3 +134,9 @@ python3 python/main.py \
 - If you restart it at any point, it will just index everything again and overwrite what is in there. It moves the finished file to the `processed` folder. Once a file is fully done, it won't be touched again unless you move it to the `to_read` folder again.
 - The way I set the `_id` means that you can only listen to one artist per second.
 - It will log the track for which it cannot find any metadata. That could be due to spotify changing the track ID, because it removed the album the track was part of.
+
+## Kibana Dashboard
+
+There is a prebuild dashboard available, you can import that through the saved objects in Kibana. It was built on 8.17.
+
+![Kibana Dashboard Preview](kibana/dashboard.jpeg)
