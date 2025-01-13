@@ -22,10 +22,10 @@ This can take up to 30 days. You will get a mail as soon as the download is read
 4. You will get a mail to validate that you want this data.
 5. Wait until you receive a mail that your data is ready for download.
 
-
 ### Spotify developer account
 
 We need a Spotify developer account otherwise we are not allowed to ask the API.
+
 1. Go to [Spotify Developer](http://developer.spotify.com/)
 2. In the top right corner `Log In`
 3. Log In with your normal Spotify Account
@@ -35,7 +35,7 @@ We need a Spotify developer account otherwise we are not allowed to ask the API.
 7. Give it a description like `Reading metadata about songs for Elasticsearch`
 8. Redirect URIs put `http://localhost:9100`
 9. Under: `Which API/SDKs are you planning to use?`
-   1.  Select `Web API`
+   1. Select `Web API`
 10. Accept the terms and conditions
 11. In the top right corner select `Settings`
 12. Copy `client ID` and `client secret`. (We pass this as parameters when we run the script)
@@ -66,7 +66,7 @@ POST _security/api_key
 POST _security/api_key
 {
     "name": "spotify"
-}  
+}
 ```
 
 > Note: If you want more fine grained control, this is the minimum the application needs:
@@ -114,14 +114,13 @@ POST _security/api_key
 
 </details>
 
-
 ## Executing
 
 1. Place the extracted files from the zip folder into the `to_read` folder. It needs to be the JSON files directly and not the zip.
 1. Execute `pip install -r requirements.txt` and install all the dependencies.
 1. Just run in your favorite shell and it will execute and find all the files in the `to_read` folder.
 
-```
+```shell
 python3 python/main.py \
 --es-url "https://spotify.es....:443" \
 --es-api-key "WFdNcE1KTU...==" \
@@ -131,7 +130,7 @@ python3 python/main.py \
 
 ## Caveats
 
-* It only works with songs. No support for videos, podcasts or anything else yet.
-* If you restart it at any point, it will just index everything again and overwrite what is in there. It moves the finished file to the `processed` folder. Once a file is fully done, it won't be touched again unless you move it to the `to_read` folder again.
-* The way I set the `_id` means that you can only listen to one artist per second.
-* It will log the track for which it cannot find any metadata. That could be due to spotify changing the track ID, because it removed the album the track was part of.
+- It only works with songs. No support for videos, podcasts or anything else yet.
+- If you restart it at any point, it will just index everything again and overwrite what is in there. It moves the finished file to the `processed` folder. Once a file is fully done, it won't be touched again unless you move it to the `to_read` folder again.
+- The way I set the `_id` means that you can only listen to one artist per second.
+- It will log the track for which it cannot find any metadata. That could be due to spotify changing the track ID, because it removed the album the track was part of.
