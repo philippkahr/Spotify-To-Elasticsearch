@@ -47,6 +47,7 @@ class SpotifyTrack:
     skipped: bool
     title: str
     url: str
+    user: Optional[str] = None
     listened_to_pct: Optional[float] = None
     ip: Optional[str] = None
     spotify_metadata: Optional[dict] = None

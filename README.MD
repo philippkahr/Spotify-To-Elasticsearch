@@ -125,8 +125,11 @@ python3 python/main.py \
 --es-url "https://spotify.es....:443" \
 --es-api-key "WFdNcE1KTU...==" \
 --spotify-client-id "f972762..." \
---spotify-client-secret "74bcf5196b..."
+--spotify-client-secret "74bcf5196b..." \
+--user-name "philipp"
 ```
+
+The `--user-name` is optional but helpful if you index the data of your friends and family as well. The field in Elastic is then called `user`
 
 ## Caveats
 

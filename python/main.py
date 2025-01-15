@@ -22,7 +22,7 @@ def try_parsing_date(text):
             pass
 
 
-def process_history_file(file_path: str, spotify_svc: SpotifyService, es_svc: ElasticsearchService):
+def process_history_file(file_path: str, spotify_svc: SpotifyService, es_svc: ElasticsearchService, user_name: str):
     """Main processing function"""
     # Set up rich logging
     logging.basicConfig(
@@ -86,7 +86,8 @@ def process_history_file(file_path: str, spotify_svc: SpotifyService, es_svc: El
                                     spotify_metadata=metadata,
                                     hourOfDay=played_at.hour,
                                     dayOfWeek=played_at.strftime("%A"),
-                                    url=metadata["external_urls"]["spotify"]
+                                    url=metadata["external_urls"]["spotify"],
+                                    user=user_name
                                 ))
                         else:
                             console.print(f"[red]Metadata not found for track: {entry}")
@@ -117,7 +118,8 @@ def process_history(
     es_url: str = typer.Option(..., help='Elasticsearch URL'),
     es_api_key: str = typer.Option(..., help='Elasticsearch API Key'),
     spotify_client_id: str = typer.Option(None, help='Spotify Client ID'),
-    spotify_client_secret: str = typer.Option(None, help='Spotify Client Secret')
+    spotify_client_secret: str = typer.Option(None, help='Spotify Client Secret'),
+    user_name: str = typer.Option(None, help='User name')
 ):
     """Setup the services"""
     if spotify_client_id and spotify_client_secret:
@@ -139,7 +141,7 @@ def process_history(
         raise ValueError("No JSON files found in 'to_read' directory, expected them to be named *Audio*.json, like Streaming_History_Audio_2023_8.json")
     else:
         for file_path in files:
-            process_history_file(file_path, spotify_svc, es_svc)
+            process_history_file(file_path, spotify_svc, es_svc, user_name)
             move_file(file_path)
 
 
