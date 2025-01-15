@@ -1,11 +1,13 @@
 from pathlib import Path
 import json
 from typing import Dict, List
-from elasticsearch import Elasticsearch, helpers
-from rich import _console
+from elasticsearch import Elasticsearch, helpers, exceptions
+from rich.console import Console
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 from models import SpotifyTrack
+
+console = Console()
 
 
 class MetadataCache:
@@ -44,17 +46,19 @@ class SpotifyService:
         if len(to_fetch) > 0:
             spotify_answer = self.client.tracks(to_fetch)
             if spotify_answer["tracks"] is not None:
-                for track in spotify_answer["tracks"]:
-                    if track is not None:
+                # Spotify can be a bit annoying and send back an Array that has `None` in it.
+                spotify_answer["tracks"] = [t for t in spotify_answer["tracks"] if t is not None]
+                if len(to_fetch) != len(spotify_answer["tracks"]):
+                    for missing_id in set(to_fetch) - {t["id"] for t in spotify_answer["tracks"]}:
+                        console.print(f"[red] Could not fetch metadata for track id: {missing_id}")
+                if len(spotify_answer["tracks"]) > 0:
+                    for track in spotify_answer["tracks"]:
                         metadatas[track["id"]] = track
                         self.metadata_cache.cache[track["id"]] = track
-                    else:
-                        for original_document in track_ids:
-                            if track_id is not None and track_id == original_document["spotify_track_uri"]:
-                                _console.print(f"[red] Could not fetch metadata from Spotify. {original_document}")
+
                 self.metadata_cache.save_cache()
             else:
-                _console.print(f"[red] Could not fetch metadata from Spotify. {to_fetch}")
+                console.print(f"[red] Could not fetch metadata from Spotify. {to_fetch}")
         return metadatas
 
 
@@ -75,8 +79,8 @@ class ElasticsearchService:
             ]}
         try:
             self.client.ingest.put_pipeline(id="spotify", body=pipeline)
-        except Elasticsearch.exceptions.RequestError as e:
-            _console.print(f"[red] Could not ingest the pipeline. Check permissions. {e}")
+        except exceptions.RequestError as e:
+            console.print(f"[red] Could not ingest the pipeline. Check permissions. {e}")
 
     def check_index(self):
         if self.client.indices.exists(index=self.index).body is False:
