@@ -30,7 +30,7 @@ class SpotifyService:
             client_id=client_id,
             client_secret=client_secret,
             redirect_uri=redirect_uri
-        ))
+        ), requests_timeout=30)
         self.metadata_cache = MetadataCache()
 
     def get_tracks_metadata(self, track_ids: str) -> Dict:
