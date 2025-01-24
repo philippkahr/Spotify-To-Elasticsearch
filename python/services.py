@@ -21,6 +21,7 @@ class MetadataCache:
         return {}
 
     def save_cache(self):
+        console.print(f"[green] Saving cache to disk {len(self.cache)}")
         self.cache_file.write_text(json.dumps(self.cache))
 
 
@@ -55,8 +56,6 @@ class SpotifyService:
                     for track in spotify_answer["tracks"]:
                         metadatas[track["id"]] = track
                         self.metadata_cache.cache[track["id"]] = track
-
-                self.metadata_cache.save_cache()
             else:
                 console.print(f"[red] Could not fetch metadata from Spotify. {to_fetch}")
         return metadatas

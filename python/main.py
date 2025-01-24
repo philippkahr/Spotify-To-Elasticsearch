@@ -95,7 +95,6 @@ def process_history_file(file_path: str, spotify_svc: SpotifyService, es_svc: El
                             console.print(f"[green]Indexing batch of tracks... {len(documents)}")
                             es_svc.bulk_index(documents)
                             documents = []
-                            spotify_svc.metadata_cache.save_cache()
                         progress.advance(task)
 
                 except Exception as e:
@@ -108,6 +107,8 @@ def process_history_file(file_path: str, spotify_svc: SpotifyService, es_svc: El
         es_svc.bulk_index(documents)
         spotify_svc.metadata_cache.save_cache()
         console.print(f"[green]Done! {file_path} processed!")
+
+    spotify_svc.metadata_cache.save_cache()
 
 
 app = typer.Typer()
