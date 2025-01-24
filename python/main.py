@@ -105,7 +105,6 @@ def process_history_file(file_path: str, spotify_svc: SpotifyService, es_svc: El
     if documents:
         console.print(f"[green]Indexing final batch of tracks... {len(documents)}")
         es_svc.bulk_index(documents)
-        spotify_svc.metadata_cache.save_cache()
         console.print(f"[green]Done! {file_path} processed!")
 
     spotify_svc.metadata_cache.save_cache()

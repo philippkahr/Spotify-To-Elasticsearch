@@ -12,6 +12,8 @@ It uses the [Spotipy](https://spotipy.readthedocs.io/en/2.25.0/) library to conn
 
 To minimize the strain on the Spotify API, we are creating a local `metadata_cache.json` file that stores all the unique songs ID + metadata retrieved. If you listen to a song twice, we will only ask the Spotify API once for the metadata.
 
+This was tested and written with Python 3.13.
+
 ### Spotify data export
 
 This can take up to 30 days. You will get a mail as soon as the download is ready.
